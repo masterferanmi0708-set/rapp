@@ -1,6 +1,6 @@
 import "./Sidebar.css";
 
-const Sidebar = ({ isRecording, audioBlob, onStart, onStop, onUpload, onSubmit, loading, transcript }) => {
+const Sidebar = ({ isRecording, audioBlob, onStart, onStop, onUpload, onSubmit, loading, transcript, result }) => {
 
   const handleFileChange = (e) => {
     if (e.target.files[0]) {
@@ -39,7 +39,7 @@ const Sidebar = ({ isRecording, audioBlob, onStart, onStop, onUpload, onSubmit, 
       </label>
 
       {/* submit button — only shows when there's audio ready */}
-      {audioBlob && (
+      {audioBlob && !result && (
         <button className="submit-btn" onClick={onSubmit} disabled={loading}>
           {loading ? "Processing..." : "Analyse lecture →"}
         </button>

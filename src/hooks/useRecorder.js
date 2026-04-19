@@ -41,7 +41,12 @@ const useRecorder = () => {
     setAudioBlob(file);
   };
 
-  return { isRecording, audioBlob, startRecording, stopRecording, handleUpload };
+  const resetRecorder = () => {
+  setAudioBlob(null);
+  setIsRecording(false);
+};
+
+  return { isRecording, audioBlob, startRecording, stopRecording, handleUpload, resetRecorder };
 };
 
 export default useRecorder;

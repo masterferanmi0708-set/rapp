@@ -9,7 +9,7 @@ import { useState } from "react";
 
 const App = () => {
   const { theme } = useTheme();
-  const { isRecording, audioBlob, startRecording, stopRecording, handleUpload } = useRecorder();
+  const { isRecording, audioBlob, startRecording, stopRecording, handleUpload, resetRecorder } = useRecorder();
 
   // this is where the API response from your mate's backend will live
   const [result, setResult] = useState(null);
@@ -32,6 +32,12 @@ const App = () => {
     }, 2000);
   };
 
+  const handleNewSession = () => {
+  setResult(null);
+  setLoading(false);
+  resetRecorder();
+};
+
 
   return (
     <div className="app" data-theme={theme}>
@@ -46,8 +52,9 @@ const App = () => {
           onSubmit={handleSubmit}
           loading={loading}
           transcript={result?.transcript}
+          result={result}
         />
-        <OutputPanel result={result} loading={loading} />
+        <OutputPanel result={result} loading={loading} onNewSession={handleNewSession} />
       </div>
     </div>
   );

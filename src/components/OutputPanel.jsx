@@ -1,6 +1,6 @@
 import "./OutputPanel.css";
 
-const OutputPanel = ({ result, loading }) => {
+const OutputPanel = ({ result, loading, onNewSession }) => {
 
   if (loading) {
     return (
@@ -23,6 +23,33 @@ const OutputPanel = ({ result, loading }) => {
       </div>
     );
   }
+
+  const handleDownload = () => {
+  const content = `
+LECTURE NOTES
+=============
+
+SUMMARY
+-------
+${result.summary}
+
+KEY CONCEPTS
+------------
+${result.concepts.map((concept, i) => `${i + 1}. ${concept}`).join("\n")}
+
+TRANSCRIPT
+----------
+${result.transcript}
+  `.trim();
+
+  const blob = new Blob([content], { type: "text/plain" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "lecture-notes.txt";
+  link.click();
+  URL.revokeObjectURL(url);
+};
 
   return (
     <div className="output-panel">
@@ -58,8 +85,8 @@ const OutputPanel = ({ result, loading }) => {
       )}
 
       <div className="btns">
-        <button className="btn-outline">Download notes</button>
-        <button className="btn-fill">New session</button>
+        <button className="btn-outline" onClick={handleDownload}>Download notes</button>    
+        <button className="btn-fill" onClick={onNewSession}>New session</button>
       </div>
     </div>
   );
